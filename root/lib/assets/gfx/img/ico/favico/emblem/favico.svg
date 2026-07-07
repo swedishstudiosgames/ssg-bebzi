@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="250" cy="250" r="250" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#circleClip)">
+    <!-- Background: Dark Purple Top -->
+    <rect width="500" height="500" fill="#3A1054" />
+
+    <!-- White Ribbon: Thinner horizontal swoop -->
+    <path d="M 0,150 Q 250,220 500,150 L 500,280 Q 250,350 0,280 Z" fill="#FFFFFF" />
+
+    <!-- Magenta Bottom -->
+    <path d="M 0,280 Q 250,350 500,280 L 500,550 L 0,550 Z" fill="#D01080" />
+
+    <!-- Main Text: BEBZI (Moved down by 25px previously) -->
+    <text 
+      x="250" 
+      y="270" 
+      font-family="Arial, sans-serif" 
+      font-size="80" 
+      font-weight="900" 
+      font-style="italic" 
+      fill="#3A1054" 
+      text-anchor="middle"
+      letter-spacing="2">
+      BEBZI
+    </text>
+
+    <!-- Secondary Text: est 1892 (Moved down by 40px) -->
+    <text 
+      x="385" 
+      y="445" 
+      font-family="Arial, sans-serif" 
+      font-size="16" 
+      font-weight="bold" 
+      fill="#3A1054" 
+      transform="rotate(-45 385 445)" 
+      text-anchor="middle">
+      est 1892
+    </text>
+  </g>
+</svg>
