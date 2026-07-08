@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,57 +9,334 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg">
     
-    <!-- Google Fonts: Montserrat for that bold, dynamic soda-brand feel -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS CDN (For Live Preview) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Montserrat', 'sans-serif'],
-                    },
-                    colors: {
-                        bebzi: {
-                            blue: '#004B93',   // Classic Pepsi-like blue
-                            dark: '#050a15',   // Deep background blue/black
-                            red: '#C9002B',    // Aggressive red
-                            white: '#F5F5F5',  // Off-white
-                            silver: '#C0C0C0'
-                        }
-                    },
-                    animation: {
-                        'spin-slow': 'spin 12s linear infinite',
-                        'pulse-glow': 'pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        'pulse-glow': {
-                            '0%, 100%': { opacity: 1, filter: 'brightness(1)' },
-                            '50%': { opacity: .8, filter: 'brightness(1.5) drop-shadow(0 0 15px rgba(0, 75, 147, 0.8))' },
-                        },
-                        'float': {
-                            '0%, 100%': { transform: 'translateY(0) rotate(12deg)' },
-                            '50%': { transform: 'translateY(-20px) rotate(8deg)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
-        /* Satirical wave background */
+        :root {
+            --bg-dark: #050a15;
+            --bg-darker: #02050a;
+            --text-main: #f5f5f5;
+            --text-muted: #9ca3af;
+            --brand-blue: #004B93;
+            --brand-red: #C9002B;
+            --brand-purple: #4c1d95;
+            --glass-bg: rgba(5, 10, 21, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .font-display {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-darker); }
+        ::-webkit-scrollbar-thumb { background: var(--brand-blue); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand-red); }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background: rgba(5, 10, 21, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-brand img {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 0.75rem;
+            filter: drop-shadow(0 0 10px rgba(0,75,147,0.5));
+        }
+
+        .nav-brand span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -1px;
+            color: var(--brand-purple); /* Dark purple BEBZI */
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-red);
+        }
+
+        .nav-btn {
+            background: var(--brand-blue);
+            padding: 0.5rem 1.5rem;
+            border-radius: 99px;
+            box-shadow: 0 0 10px rgba(0,75,147,0.6);
+            border: 1px solid rgba(100,150,255,0.3);
+            margin-left: 2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--brand-red);
+            box-shadow: 0 0 15px rgba(201,0,43,0.8);
+            color: #fff !important;
+        }
+
+        .mobile-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .mobile-toggle svg { width: 2rem; height: 2rem; }
+
+        .mobile-menu {
+            display: none;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 1.5rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; align-items: center; }
+            .mobile-toggle { display: none; }
+            .mobile-menu.active { display: none; }
+        }
+
+        .hero {
+            position: relative;
+            padding: 10rem 0 6rem;
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
         .brand-wave-bg {
             background: linear-gradient(135deg, #004B93 0%, #004B93 35%, #050a15 35%, #050a15 65%, #C9002B 65%, #C9002B 100%);
             background-size: 300% 300%;
             animation: gradient-shift 20s ease infinite;
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 10, 21, 0.85);
+            mix-blend-mode: multiply;
+            z-index: 2;
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 10;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        @media (min-width: 992px) {
+            .hero-content-wrapper {
+                flex-direction: row;
+                align-items: center;
+                padding: 4rem;
+            }
+        }
+
+        .hero-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        @media (min-width: 992px) {
+            .hero-text { text-align: left; }
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title { font-size: 4.5rem; }
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+            color: transparent;
+        }
+
+        .hero-title .accent {
+            color: var(--brand-red);
+            display: inline-block;
+        }
+
+        .hero-desc {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 992px) {
+            .hero-desc { margin-left: 0; margin-right: 0; }
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        @media (min-width: 576px) {
+            .btn-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .btn-group { justify-content: flex-start; }
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (min-width: 576px) {
+            .btn { width: auto; }
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: #fff;
+            border: 1px solid rgba(100,150,255,0.3);
+            box-shadow: 0 0 20px rgba(0,75,147,0.5);
+        }
+
+        .btn-primary:hover {
+            background: var(--brand-red);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 0 20px rgba(201,0,43,0.8);
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(12deg); }
+            50% { transform: translateY(-20px) rotate(8deg); }
         }
 
         @keyframes gradient-shift {
@@ -68,26 +345,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glass container for content over the wave */
-        .glass-panel {
-            background: rgba(5, 10, 21, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-
-        .text-outline {
-            -webkit-text-stroke: 1px rgba(255,255,255,0.5);
-            color: transparent;
-        }
-
-        /* Hide scrollbar for a cleaner look */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050a15; }
-        ::-webkit-scrollbar-thumb { background: #004B93; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #C9002B; }
-
-        /* Custom Can CSS Art */
+        /* The 3D CSS Can */
         .soda-can {
             position: relative;
             width: 120px;
@@ -98,216 +356,373 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            transition: all 0.4s ease;
+            transition: transform 0.4s ease;
         }
-        
+
+        .soda-can.large {
+            width: 160px;
+            height: 320px;
+        }
+
         .soda-can::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 15px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 15px;
             background: linear-gradient(90deg, #999, #eee, #999);
-            border-radius: 10px 10px 0 0;
-            z-index: 10;
+            border-radius: 10px 10px 0 0; z-index: 10;
         }
 
         .soda-can::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 15px;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 15px;
             background: linear-gradient(90deg, #777, #ccc, #777);
-            border-radius: 0 0 15px 15px;
-            z-index: 10;
+            border-radius: 0 0 15px 15px; z-index: 10;
         }
 
-        /* Can Themes mimicking the globe logo */
-        .can-classic {
+        .can-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Shine effect */
+        .can-inner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%;
+            width: 200%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-15deg);
+        }
+
+        /* Icon ONLY on the can (No text) */
+        .can-icon {
+            width: 4rem;
+            height: 4rem;
+            z-index: 20;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+        }
+
+        .soda-can.large .can-icon {
+            width: 6rem;
+            height: 6rem;
+        }
+
+        /* Exact Gradients Requested by User */
+        
+        /* 1. Classic - Purple Fade */
+        .can-classic .can-inner {
             background: linear-gradient(160deg, #d8b4fe 0%, #9333ea 25%, #6b21a8 35%, #3b0764 100%);
         }
-        .can-void {
+
+        /* 2. Void - Black to Dark Gray */
+        .can-void .can-inner {
             background: linear-gradient(to top, #000 50%, #222 100%);
         }
-        .can-absolute-void {
+        .can-void .can-icon {
+            filter: grayscale(1) contrast(1.2) drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        /* 3. Absolute Void - Black to Dark Blue exactly */
+        .can-absolute-void .can-inner {
             background: linear-gradient(to top, #000 50%, #03005D 100%, #004B93 100%);
+        }
+
+        .products {
+            padding: 6rem 0;
+            background-color: var(--bg-darker);
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .products-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .products-header h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .products-header h2 .highlight { color: var(--brand-red); }
+
+        .products-header p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .product-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .product-card:hover .soda-can {
+            transform: translateY(-10px);
+        }
+
+        .product-card .soda-can {
+            margin-bottom: 2.5rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Ensuring descriptions are completely plain, no colored spans */
+        .product-card p {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-tag {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #d1d5db;
+        }
+
+        .btn-acquire {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .product-card:hover .btn-acquire {
+            background: var(--brand-blue);
+        }
+
+        .footer {
+            background: #000;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .footer-brand img {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .footer-brand span {
+            font-family: 'Montserrat', sans-serif;
+            color: #d1d5db;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-text {
+            color: #6b7280;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-text { text-align: right; }
         }
     </style>
 </head>
-<body class="bg-bebzi-dark text-gray-100 font-sans antialiased overflow-x-hidden flex flex-col min-h-screen">
+<body>
 
-    <!-- Top Corporate Stripe -->
-    <div class="h-1.5 w-full bg-gradient-to-r from-bebzi-blue via-white to-bebzi-red z-50 fixed top-0"></div>
-
-    <nav class="fixed w-full z-40 bg-bebzi-dark/95 backdrop-blur-md border-b border-white/5 top-1.5 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                
-                <!-- Logo mimicking a circular soda brand -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Logo" class="w-12 h-12 mr-3 drop-shadow-[0_0_15px_rgba(0,75,147,0.5)]">
-                    <span class="font-display text-3xl font-black italic tracking-tighter text-purple-700 drop-shadow-md">
-                        BEBZI
-                    </span>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#campaign" class="hover:text-bebzi-blue px-3 py-2 text-sm font-bold tracking-widest uppercase transition-colors">Mandate</a>
-                        <a href="#products" class="hover:text-bebzi-red px-3 py-2 text-sm font-bold tracking-widest uppercase transition-colors">Rations</a>
-                        <a href="#products" class="bg-bebzi-blue text-white hover:bg-bebzi-red px-6 py-2 rounded-full text-sm font-black italic tracking-widest uppercase transition-all shadow-[0_0_10px_rgba(0,75,147,0.6)] hover:shadow-[0_0_15px_rgba(201,0,43,0.8)] border border-blue-400/30">Comply Now</a>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white hover:text-bebzi-red focus:outline-none p-2">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-content">
+            
+            <!-- Dark purple BEBZI logo, no registered trademark -->
+            <a href="#" class="nav-brand" onclick="window.scrollTo(0,0)">
+                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Logo">
+                <span>BEBZI</span>
+            </a>
+            
+            <!-- Desktop Links -->
+            <div class="nav-links">
+                <a href="#campaign">Mandate</a>
+                <a href="#products">Rations</a>
+                <a href="#products" class="nav-btn">Comply Now</a>
             </div>
+
+            <!-- Mobile Toggle -->
+            <button class="mobile-toggle" id="mobile-menu-btn">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
         
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-bebzi-dark border-b border-white/10 absolute w-full shadow-2xl">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#campaign" class="mobile-link block hover:bg-white/5 px-4 py-3 rounded-lg text-base font-bold italic uppercase tracking-widest">Mandate</a>
-                <a href="#products" class="mobile-link block hover:bg-white/5 px-4 py-3 rounded-lg text-base font-bold italic uppercase tracking-widest">Rations</a>
-                <a href="#products" class="mobile-link block text-center bg-bebzi-blue text-white px-4 py-3 mt-4 rounded-full text-base font-black italic uppercase tracking-widest shadow-md">Comply Now</a>
-            </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#campaign">Mandate</a>
+            <a href="#products">Rations</a>
+            <a href="#products" style="color: var(--brand-red);">Comply Now</a>
         </div>
     </nav>
 
-    <main class="flex-grow">
-        <section id="campaign" class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden min-h-[95vh] flex items-center brand-wave-bg">
-            <!-- Overlay to darken the background animation -->
-            <div class="absolute inset-0 bg-bebzi-dark/80 mix-blend-multiply"></div>
+    <main>
+        <section id="campaign" class="hero">
+            <div class="brand-wave-bg"></div>
+            <div class="hero-overlay"></div>
             
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full glass-panel rounded-3xl p-8 md:p-16">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="container">
+                <div class="hero-content-wrapper">
                     
-                    <!-- Hero Text -->
-                    <div class="text-center lg:text-left order-2 lg:order-1">
-                        <div class="inline-flex items-center space-x-2 bg-black/40 px-4 py-2 rounded-full border border-white/10 mb-6 backdrop-blur-sm">
-                            <span class="w-3 h-3 rounded-full bg-bebzi-red animate-pulse"></span>
-                            <span class="text-gray-300 text-xs font-bold uppercase tracking-widest">"Is Bebzi Okay?" — No, it's mandatory.</span>
-                        </div>
-                        
-                        <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black italic uppercase leading-none mb-6 text-white drop-shadow-lg">
-                            THE CHOICE OF A <br>
-                            <span class="text-outline">COMPLIANT</span> <br>
-                            <span class="text-bebzi-red animate-pulse-glow inline-block">GENERATION.</span>
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            The Choice Of A <br>
+                            <span class="text-outline">Compliant</span> <br>
+                            <span class="accent">Generation.</span>
                         </h1>
-                        
-                        <p class="text-lg sm:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
+                        <p class="hero-desc">
                             Refresh your mandate! The undisputed leading industrial solvent is now boldly rebranded for your lifestyle. Overriding your natural thirst receptors has never tasted so aggressively average.
                         </p>
-                        
-                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
-                            <a href="#products" class="w-full sm:w-auto bg-bebzi-blue hover:bg-bebzi-red text-white px-8 py-4 rounded-full font-black italic uppercase tracking-widest transition-all duration-300 transform hover:scale-105 hover:-rotate-1 shadow-[0_0_20px_rgba(0,75,147,0.5)] border border-blue-400/20 text-center">
-                                Surrender & Drink
-                            </a>
-                            <a href="#products" class="w-full sm:w-auto bg-transparent hover:bg-white/5 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest transition-all duration-300 border border-white/20 text-center">
-                                View Rations
-                            </a>
+                        <div class="btn-group">
+                            <a href="#products" class="btn btn-primary">Surrender & Drink</a>
                         </div>
                     </div>
                     
-                    <!-- Hero Imagery (3D Can Representation) -->
-                    <div class="order-1 lg:order-2 flex justify-center lg:justify-end relative perspective-1000">
-                        <div class="relative w-64 h-96 flex items-center justify-center animate-float z-20 cursor-pointer group">
-                            <!-- Abstract Can Shape -->
-                            <div class="w-full h-full rounded-2xl bg-gradient-to-b from-gray-800 via-gray-900 to-black p-1 shadow-[20px_20px_60px_rgba(0,0,0,0.8),_0_0_40px_rgba(0,75,147,0.4)] border border-gray-700/50 relative overflow-hidden flex flex-col items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                                <!-- Can Label -->
-                                <div class="w-full h-full can-classic flex items-center justify-center relative overflow-hidden shadow-inner">
-                                    <div class="absolute inset-0 bg-black/20"></div>
-                                    <!-- Shine effect -->
-                                    <div class="absolute top-0 left-[-50%] w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
-                                    
-                                    <div class="relative z-10 flex items-center justify-center w-full h-full">
-                                        <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Logo" class="w-28 h-28 z-20 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
-                                    </div>
+                    <div class="hero-visual">
+                        <div class="animate-float">
+                            <!-- Large Classic Can with Purple Fade and SVG Icon -->
+                            <div class="soda-can large can-classic">
+                                <div class="can-inner">
+                                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Emblem" class="can-icon">
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Background glow elements -->
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-bebzi-blue/30 rounded-full blur-[80px] -z-10 animate-pulse"></div>
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-bebzi-red/20 rounded-full blur-[60px] -z-10 animate-pulse delay-1000"></div>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="products" class="py-24 bg-bebzi-dark relative z-20 border-t border-white/5">
-            <!-- Decorative background pattern -->
-            <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="text-center mb-20">
-                    <div class="inline-flex items-center space-x-2 bg-bebzi-blue/20 px-4 py-1.5 rounded-full border border-bebzi-blue/30 mb-4">
-                        <span class="text-bebzi-blue text-xs font-bold uppercase tracking-widest">Inventory Manifest</span>
-                    </div>
-                    <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tight text-white mb-6 drop-shadow-lg">
-                        Standard Issue <span class="text-bebzi-red">Rations</span>
-                    </h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto text-lg">
-                        Available at all authorized dispensaries. Must be consumed within 12 minutes of opening to prevent container dissolution.
-                    </p>
+        <section id="products" class="products">
+            <div class="container">
+                <div class="products-header">
+                    <h2>Standard Issue <span class="highlight">Rations</span></h2>
+                    <p>Available at all authorized dispensaries. Must be consumed within 12 minutes of opening to prevent container dissolution.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                <div class="product-grid">
                     
                     <!-- Product 1: Classic -->
-                    <div class="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 flex flex-col items-center hover:border-bebzi-blue/50 hover:bg-gray-900 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(0,75,147,0.2)]">
-                        <div class="soda-can can-classic mb-8 group-hover:-translate-y-4 duration-500 ease-out z-10 relative flex items-center justify-center">
-                            <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Emblem" class="w-16 h-16 z-20 drop-shadow-lg">
+                    <div class="product-card">
+                        <div class="soda-can can-classic">
+                            <div class="can-inner">
+                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                            </div>
                         </div>
-                        <h3 class="font-display text-2xl font-black italic uppercase text-white mb-3 text-center">Bebzi Classic</h3>
-                        <p class="text-gray-400 text-center text-sm mb-6 flex-grow leading-relaxed">
-                            The original corrosive formula. Clinically proven to accelerate dental porosity. We guarantee 100% Swiss cheese satisfaction! Standard 500 ml aluminum receptacle.
-                        </p>
-                        <div class="mt-auto w-full pt-6 border-t border-gray-800 flex justify-between items-center">
-                            <span class="text-lg font-bold text-gray-300">$2.50</span>
-                            <button class="bg-bebzi-blue/20 hover:bg-bebzi-blue text-white text-xs font-bold uppercase tracking-wider py-2 px-4 rounded transition-colors">Acquire</button>
+                        <h3>Bebzi Classic</h3>
+                        <p>The original corrosive formula. Clinically proven to accelerate dental porosity. We guarantee 100% Swiss cheese satisfaction! Standard 500 ml aluminum receptacle.</p>
+                        <div class="product-price">
+                            <span class="price-tag">$2.50</span>
+                            <button class="btn-acquire">Acquire</button>
                         </div>
                     </div>
 
-                    <!-- Product 2: Void (Zero/Diet equivalent) -->
-                    <div class="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 flex flex-col items-center hover:border-gray-400/50 hover:bg-gray-900 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] relative">
-                        <!-- 'Most Mandated' Badge -->
-                        <div class="absolute -top-4 bg-bebzi-red text-white text-[10px] font-black uppercase tracking-widest py-1 px-3 rounded-full border border-red-900 z-20 shadow-lg">
+                    <!-- Product 2: Void -->
+                    <div class="product-card" style="position: relative;">
+                        <!-- 'Most Mandated' Badge using pure CSS -->
+                        <div style="position: absolute; top: -10px; background: #C9002B; color: #fff; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 99px;">
                             Highly Enforced
                         </div>
-                        
-                        <div class="soda-can can-void mb-8 group-hover:-translate-y-4 duration-500 ease-out z-10 relative flex items-center justify-center">
-                            <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Emblem" class="w-16 h-16 z-20 drop-shadow-lg grayscale contrast-125">
+                        <div class="soda-can can-void">
+                            <div class="can-inner">
+                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                            </div>
                         </div>
-                        <h3 class="font-display text-2xl font-black italic uppercase text-white mb-3 text-center">Bebzi Void</h3>
-                        <p class="text-gray-400 text-center text-sm mb-6 flex-grow leading-relaxed">
-                            Zero calories. Contains traces of lab-grown dark matter and the good stuff that even made John Lemon jealous. Do not consume on an empty stomach to avoid spontaneous localized implosions.
-                        </p>
-                        <div class="mt-auto w-full pt-6 border-t border-gray-800 flex justify-between items-center">
-                            <span class="text-lg font-bold text-gray-300">$2.50</span>
-                            <button class="bg-gray-700/50 hover:bg-gray-400 hover:text-black text-white text-xs font-bold uppercase tracking-wider py-2 px-4 rounded transition-colors">Acquire</button>
+                        <h3>Bebzi Void</h3>
+                        <p>Zero calories. Contains traces of lab-grown dark matter and the good stuff that even made John Lemon jealous. Do not consume on an empty stomach to avoid spontaneous localized implosions.</p>
+                        <div class="product-price">
+                            <span class="price-tag">$2.50</span>
+                            <button class="btn-acquire">Acquire</button>
                         </div>
                     </div>
 
                     <!-- Product 3: Absolute Void -->
-                    <div class="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 flex flex-col items-center hover:border-bebzi-red/50 hover:bg-gray-900 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(201,0,43,0.2)]">
-                        <div class="soda-can can-absolute-void mb-8 group-hover:-translate-y-4 duration-500 ease-out z-10 relative flex items-center justify-center">
-                            <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Emblem" class="w-16 h-16 z-20 drop-shadow-[0_0_15px_rgba(201,0,43,0.6)]">
+                    <div class="product-card">
+                        <div class="soda-can can-absolute-void">
+                            <div class="can-inner">
+                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                            </div>
                         </div>
-                        <h3 class="font-display text-2xl font-black italic uppercase text-white mb-3 text-center">Bebzi Absolute Void</h3>
-                        <p class="text-gray-400 text-center text-sm mb-6 flex-grow leading-relaxed">
-                            Enhanced with unstable artificial energy constructs. May cause mild to severe bioluminescence of the internal organs. Standard 500 ml lead-lined aluminum receptacle.
-                        </p>
-                        <div class="mt-auto w-full pt-6 border-t border-gray-800 flex justify-between items-center">
-                            <span class="text-lg font-bold text-gray-300">$3.50</span>
-                            <button class="bg-bebzi-red/20 hover:bg-bebzi-red text-white text-xs font-bold uppercase tracking-wider py-2 px-4 rounded transition-colors">Acquire</button>
+                        <h3>Bebzi Absolute Void</h3>
+                        <p>Enhanced with unstable artificial energy constructs. May cause mild to severe bioluminescence of the internal organs. Standard 500 ml lead-lined aluminum receptacle.</p>
+                        <div class="product-price">
+                            <span class="price-tag">$3.50</span>
+                            <button class="btn-acquire">Acquire</button>
                         </div>
                     </div>
 
@@ -316,63 +731,43 @@
         </section>
     </main>
 
-    <footer class="bg-[#02050a] py-12 border-t border-white/10 mt-auto relative z-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                
-                <div class="flex items-center">
-                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Logo" class="w-8 h-8 mr-3 opacity-90 drop-shadow-md">
-                    <span class="font-display text-gray-300 font-black italic uppercase tracking-widest text-lg">
-                        BEBZI
-                    </span>
-                </div>
-                
-                <div class="text-gray-500 text-xs text-center md:text-right max-w-md">
-                    <p class="mb-1 uppercase tracking-widest font-bold">Mandatory Compliance Division</p>
-                    <p title="Copyright© 2008-2026 SwedishStudios Games">Copyright &copy; 1892-2026 Bebzi Corporation. Your biological distinctiveness will be added to our demographics.</p>
-                </div>
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Logo">
+                <span>BEBZI</span>
+            </div>
+            
+            <div class="footer-text">
+                <p style="font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">Mandatory Compliance Division</p>
+                <p>Copyright &copy; 1892-2026 Bebzi Corporation. Your biological distinctiveness will be added to our demographics.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // Simple Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         
         btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+            menu.classList.toggle('active');
         });
         
-        // Smooth scrolling for anchor links
+        // Smooth scroll and close menu on click
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                menu.classList.add('hidden'); // Close mobile menu on click
+                menu.classList.remove('active');
                 
                 const targetId = this.getAttribute('href');
                 if(targetId === '#') return;
                 
                 const targetElement = document.querySelector(targetId);
                 if(targetElement) {
-                    targetElement.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             });
-        });
-
-        // Navbar blur effect on scroll
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                navbar.classList.add('shadow-lg', 'bg-bebzi-dark/95');
-                navbar.classList.remove('bg-bebzi-dark/50');
-            } else {
-                navbar.classList.remove('shadow-lg', 'bg-bebzi-dark/95');
-                navbar.classList.add('bg-bebzi-dark/50');
-            }
         });
     </script>
 </body>
