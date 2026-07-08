@@ -2,7 +2,7 @@
   "name": "bebzi-website",
   "version": "1.0.0",
   "scripts": {
-    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+    "build": "tailwindcss -i ./root/lib/src/css/input.css -o ./dist/output.css --minify"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
