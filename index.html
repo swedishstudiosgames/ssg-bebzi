@@ -12,7 +12,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -348,7 +348,7 @@
         /* The 3D CSS Can */
         .soda-can {
             position: relative;
-            width: 120px;
+            width: 100px;
             height: 240px;
             border-radius: 10px 10px 15px 15px;
             box-shadow: inset -15px 0 20px rgba(0,0,0,0.5), inset 10px 0 20px rgba(255,255,255,0.3), 10px 20px 30px rgba(0,0,0,0.6);
@@ -360,7 +360,7 @@
         }
 
         .soda-can.large {
-            width: 160px;
+            width: 125px;
             height: 320px;
         }
 
@@ -390,10 +390,10 @@
         .can-inner::after {
             content: '';
             position: absolute;
-            top: 0; left: -50%;
-            width: 200%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-            transform: skewX(-15deg);
+            top: 0; left: 12%;
+            width: 18%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
         }
 
         /* Icon ONLY on the can (No text) */
@@ -419,9 +419,6 @@
         /* 2. Void - Black to Dark Gray */
         .can-void .can-inner {
             background: linear-gradient(to top, #000 50%, #222 100%);
-        }
-        .can-void .can-icon {
-            filter: grayscale(1) contrast(1.2) drop-shadow(0 0 10px rgba(255,255,255,0.2));
         }
 
         /* 3. Absolute Void - Black to Dark Blue exactly */
@@ -466,22 +463,29 @@
         @media (min-width: 768px) {
             .product-grid { grid-template-columns: repeat(3, 1fr); }
         }
+        
+        .product-card-wrapper {
+            position: relative;
+        }
 
         .product-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 0.75rem;
             padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: all 0.3s ease;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .product-card:hover {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.04);
             transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
 
         .product-card:hover .soda-can {
@@ -499,6 +503,7 @@
             font-style: italic;
             margin-bottom: 1rem;
             text-align: center;
+            letter-spacing: 1px;
         }
 
         /* Ensuring descriptions are completely plain, no colored spans */
@@ -513,7 +518,7 @@
 
         .product-price {
             width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.05);
             padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
@@ -526,21 +531,58 @@
             color: #d1d5db;
         }
 
+        .price-period {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-subtext {
+            color: var(--text-muted);
+            font-size: 8px;
+            margin-top: 0.25rem;
+        }
+
         .btn-acquire {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+            background: #2a2d35;
+            color: #f3f4f6;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.25rem;
             border-radius: 0.25rem;
             font-weight: 700;
             text-transform: uppercase;
             font-size: 0.75rem;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
         .product-card:hover .btn-acquire {
             background: var(--brand-blue);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0,75,147,0.5);
+        }
+        
+        /* Cleaned up badge class for easy re-use without inline styling */
+        .badge-enforced {
+            position: absolute; 
+            top: -10px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--brand-red); 
+            color: #fff; 
+            font-size: 0.65rem; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            padding: 4px 12px; 
+            border-radius: 99px;
+            z-index: 10;
         }
 
         .footer {
@@ -590,6 +632,12 @@
             color: #6b7280;
             font-size: 0.75rem;
             text-align: center;
+        }
+        
+        .footer-text p.division-name {
+            font-weight: 700; 
+            text-transform: uppercase; 
+            margin-bottom: 0.25rem;
         }
 
         @media (min-width: 768px) {
@@ -649,7 +697,7 @@
                             Refresh your mandate! The undisputed leading industrial solvent is now boldly rebranded for your lifestyle. Overriding your natural thirst receptors has never tasted so aggressively average.
                         </p>
                         <div class="btn-group">
-                            <a href="#products" class="btn btn-primary">Surrender & Drink</a>
+                            <a href="#products" class="btn btn-primary">Surrender &amp; Drink</a>
                         </div>
                     </div>
                     
@@ -678,51 +726,64 @@
                 <div class="product-grid">
                     
                     <!-- Product 1: Classic -->
-                    <div class="product-card">
-                        <div class="soda-can can-classic">
-                            <div class="can-inner">
-                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                    <div class="product-card-wrapper">
+                        <div class="product-card">
+                            <div class="soda-can can-classic">
+                                <div class="can-inner">
+                                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                                </div>
                             </div>
-                        </div>
-                        <h3>Bebzi Classic</h3>
-                        <p>The original corrosive formula. Clinically proven to accelerate dental porosity. We guarantee 100% Swiss cheese satisfaction! Standard 500 ml aluminum receptacle.</p>
-                        <div class="product-price">
-                            <span class="price-tag">$2.50</span>
-                            <button class="btn-acquire">Acquire</button>
+                            <h3>Bebzi Classic</h3>
+                            <p>The original corrosive formula. Clinically proven to accelerate dental porosity. We guarantee 100% Swiss cheese satisfaction! Standard 500 ml aluminum receptacle.</p>
+                            <div class="product-price">
+                                <div class="price-info">
+                                    <span class="price-tag">π9.99<span class="price-period">/mo</span></span>
+                                    <span class="price-subtext">for 24 months</span>
+                                </div>
+                                <button class="btn-acquire">lease</button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Product 2: Void -->
-                    <div class="product-card" style="position: relative;">
-                        <!-- 'Most Mandated' Badge using pure CSS -->
-                        <div style="position: absolute; top: -10px; background: #C9002B; color: #fff; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 99px;">
-                            Highly Enforced
-                        </div>
-                        <div class="soda-can can-void">
-                            <div class="can-inner">
-                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                    <div class="product-card-wrapper">
+                        <!-- 'Most Mandated' Badge converted to pure CSS class -->
+                        <div class="badge-enforced">Highly Enforced</div>
+                        <div class="product-card">
+                            <div class="soda-can can-void">
+                                <div class="can-inner">
+                                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                                </div>
                             </div>
-                        </div>
-                        <h3>Bebzi Void</h3>
-                        <p>Zero calories. Contains traces of lab-grown dark matter and the good stuff that even made John Lemon jealous. Do not consume on an empty stomach to avoid spontaneous localized implosions.</p>
-                        <div class="product-price">
-                            <span class="price-tag">$2.50</span>
-                            <button class="btn-acquire">Acquire</button>
+                            <h3>Bebzi Void</h3>
+                            <p>Zero calories. Contains traces of lab-grown dark matter and the good stuff that even made John Lemon jealous. Do not consume on an empty stomach to avoid spontaneous localized implosions.</p>
+                            <div class="product-price">
+                                <div class="price-info">
+                                    <span class="price-tag">π9.99<span class="price-period">/mo</span></span>
+                                    <span class="price-subtext">for 24 months</span>
+                                </div>
+                                <button class="btn-acquire">Rent</button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Product 3: Absolute Void -->
-                    <div class="product-card">
-                        <div class="soda-can can-absolute-void">
-                            <div class="can-inner">
-                                <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                    <div class="product-card-wrapper">
+                        <div class="product-card">
+                            <div class="soda-can can-absolute-void">
+                                <div class="can-inner">
+                                    <img src="https://bebzi.store/root/lib/assets/gfx/img/ico/favico/emblem/favico.svg" alt="Bebzi Icon" class="can-icon">
+                                </div>
                             </div>
-                        </div>
-                        <h3>Bebzi Absolute Void</h3>
-                        <p>Enhanced with unstable artificial energy constructs. May cause mild to severe bioluminescence of the internal organs. Standard 500 ml lead-lined aluminum receptacle.</p>
-                        <div class="product-price">
-                            <span class="price-tag">$3.50</span>
-                            <button class="btn-acquire">Acquire</button>
+                            <h3>Bebzi Absolute Void</h3>
+                            <p>Enhanced with unstable artificial energy constructs. May cause mild to severe bioluminescence of the internal organs. Standard 500 ml lead-lined aluminum receptacle.</p>
+                            <div class="product-price">
+                                <div class="price-info">
+                                    <span class="price-tag">π9.99<span class="price-period">/mo</span></span>
+                                    <span class="price-subtext">for 24 months</span>
+                                </div>
+                                <button class="btn-acquire">subscribe</button>
+                            </div>
                         </div>
                     </div>
 
@@ -739,13 +800,13 @@
             </div>
             
             <div class="footer-text">
-                <p style="font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">Mandatory Compliance Division</p>
-                <p>Copyright &copy; 1892-2026 Bebzi Corporation. Your biological distinctiveness will be added to our demographics.</p>
+                <p class="division-name">Mandatory Compliance Division</p>
+                <p>Copyright © 1892-2026 Bebzi Corporation. Your biological distinctiveness will be added to our database.</p>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script type="text/javascript">
         // Simple Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
